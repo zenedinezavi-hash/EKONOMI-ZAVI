@@ -1,0 +1,1597 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bank & IKNB — Media Pembelajaran Interaktif</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8C97A;
+    --gold-pale: #F5E6B8;
+    --gold-dim: #9A7A30;
+    --white: #FFFFFF;
+    --off-white: #FDFAF3;
+    --cream: #FAF3E0;
+    --text: #2C2414;
+    --text-mid: #5A4A2A;
+    --text-light: #8A7A5A;
+    --border: #E0CC88;
+    --shadow: rgba(180,140,40,0.15);
+    --shadow-strong: rgba(120,90,10,0.22);
+    --radius: 16px;
+    --nav-h: 68px;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: var(--off-white);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* ===== NAV ===== */
+  nav {
+    position: fixed; top:0; left:0; right:0; z-index:999;
+    height: var(--nav-h);
+    background: rgba(255,252,245,0.97);
+    border-bottom: 2px solid var(--border);
+    backdrop-filter: blur(12px);
+    display: flex; align-items: center;
+    padding: 0 24px;
+    gap: 4px;
+    overflow-x: auto;
+    box-shadow: 0 4px 24px var(--shadow);
+  }
+
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--gold-dim);
+    white-space: nowrap;
+    margin-right: 16px;
+    letter-spacing: -0.3px;
+    flex-shrink: 0;
+  }
+
+  .nav-divider {
+    width: 1px; height: 28px;
+    background: var(--border);
+    margin: 0 8px;
+    flex-shrink: 0;
+  }
+
+  nav button {
+    background: none;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 10px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-mid);
+    cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: all .2s;
+  }
+  nav button:hover { background: var(--gold-pale); color: var(--gold-dim); }
+  nav button.active { background: var(--gold); color: #fff; }
+
+  /* ===== PAGES ===== */
+  .page { display:none; padding-top: calc(var(--nav-h) + 32px); min-height:100vh; }
+  .page.active { display:block; }
+
+  .container { max-width: 960px; margin:0 auto; padding: 0 24px 80px; }
+
+  /* ===== HEADINGS ===== */
+  .page-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 5vw, 44px);
+    font-weight: 800;
+    color: var(--text);
+    line-height: 1.1;
+    margin-bottom: 8px;
+  }
+  .page-subtitle {
+    font-size: 15px;
+    color: var(--text-light);
+    margin-bottom: 40px;
+    font-weight: 500;
+  }
+  .gold-line {
+    width: 64px; height: 4px;
+    background: linear-gradient(90deg, var(--gold), var(--gold-light));
+    border-radius: 4px;
+    margin-bottom: 16px;
+  }
+
+  /* ===== HERO (HOME) ===== */
+  .hero {
+    background: linear-gradient(135deg, #FFF8E7 0%, #FEF0C0 50%, #FAE8A0 100%);
+    border: 2px solid var(--border);
+    border-radius: 24px;
+    padding: 56px 48px;
+    margin-bottom: 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '🏦';
+    position: absolute;
+    right: 40px; top: 30px;
+    font-size: 120px;
+    opacity: .12;
+  }
+  .hero-badge {
+    display: inline-block;
+    background: var(--gold);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 99px;
+    letter-spacing: .8px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 5vw, 48px);
+    font-weight: 800;
+    color: var(--text);
+    line-height: 1.1;
+    margin-bottom: 12px;
+  }
+  .hero-meta {
+    display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
+    margin-bottom: 20px;
+  }
+  .hero-chip {
+    background: rgba(201,168,76,.18);
+    border: 1px solid var(--border);
+    color: var(--gold-dim);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 5px 12px;
+    border-radius: 99px;
+  }
+  .hero p {
+    font-size: 15px;
+    color: var(--text-mid);
+    max-width: 520px;
+    line-height: 1.7;
+  }
+
+  /* ===== CARDS GRID ===== */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 20px;
+    margin-bottom: 40px;
+  }
+
+  .card {
+    background: var(--white);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px 24px;
+    box-shadow: 0 4px 16px var(--shadow);
+    transition: transform .2s, box-shadow .2s;
+    cursor: pointer;
+  }
+  .card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px var(--shadow-strong); }
+
+  .card-icon {
+    width: 52px; height: 52px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--gold-pale), var(--gold-light));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px;
+    margin-bottom: 16px;
+  }
+  .card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+  .card p {
+    font-size: 13px;
+    color: var(--text-light);
+    line-height: 1.6;
+  }
+
+  /* ===== TAHUKAH KAMU ===== */
+  .did-you-know {
+    background: linear-gradient(135deg, var(--gold), var(--gold-dim));
+    border-radius: var(--radius);
+    padding: 32px 36px;
+    color: #fff;
+    margin-bottom: 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .did-you-know::before {
+    content: '💡';
+    position: absolute; right: 32px; top: 50%; transform: translateY(-50%);
+    font-size: 80px; opacity:.2;
+  }
+  .did-you-know h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px; margin-bottom: 10px;
+  }
+  .did-you-know p { font-size: 14px; line-height: 1.7; max-width: 620px; opacity:.93; }
+  .dyk-nav {
+    display: flex; gap: 8px; margin-top: 16px;
+  }
+  .dyk-btn {
+    background: rgba(255,255,255,.25);
+    border: none; color:#fff;
+    padding: 6px 16px; border-radius: 99px;
+    font-size: 13px; font-weight: 600;
+    cursor: pointer;
+    transition: background .2s;
+  }
+  .dyk-btn:hover { background: rgba(255,255,255,.4); }
+
+  /* ===== SECTION HEADERS ===== */
+  .section-header {
+    display: flex; align-items: center; gap: 14px;
+    margin-bottom: 28px;
+  }
+  .section-icon {
+    width: 48px; height: 48px; border-radius: 14px;
+    background: linear-gradient(135deg, var(--gold-pale), var(--gold-light));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; flex-shrink: 0;
+  }
+
+  /* ===== INFO BLOCKS ===== */
+  .info-block {
+    background: var(--white);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px 32px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 12px var(--shadow);
+  }
+  .info-block h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 19px; font-weight: 700;
+    color: var(--text); margin-bottom: 10px;
+  }
+  .info-block p {
+    font-size: 14px; color: var(--text-mid);
+    line-height: 1.75;
+  }
+
+  /* ===== ACCORDION ===== */
+  .accordion {
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 12px var(--shadow);
+  }
+  .accordion-item { border-bottom: 1px solid var(--border); }
+  .accordion-item:last-child { border-bottom: none; }
+  .accordion-header {
+    width: 100%;
+    background: var(--white);
+    border: none;
+    padding: 18px 24px;
+    display: flex; align-items: center; justify-content: space-between;
+    cursor: pointer;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 14px; font-weight: 700;
+    color: var(--text);
+    text-align: left;
+    transition: background .2s;
+  }
+  .accordion-header:hover { background: var(--cream); }
+  .accordion-header.open { background: var(--gold-pale); color: var(--gold-dim); }
+  .accordion-icon { font-size: 18px; transition: transform .3s; flex-shrink:0; }
+  .accordion-header.open .accordion-icon { transform: rotate(45deg); }
+  .accordion-body {
+    max-height: 0; overflow: hidden;
+    transition: max-height .35s ease, padding .2s;
+    background: var(--off-white);
+    font-size: 13.5px; color: var(--text-mid);
+    line-height: 1.75;
+  }
+  .accordion-body.open { max-height: 600px; }
+  .accordion-body-inner { padding: 20px 24px; }
+
+  /* ===== LIST STYLE ===== */
+  .styled-list {
+    list-style: none; padding: 0; margin: 0;
+  }
+  .styled-list li {
+    padding: 10px 0;
+    border-bottom: 1px dashed var(--border);
+    font-size: 14px; color: var(--text-mid);
+    display: flex; align-items: flex-start; gap: 10px;
+    line-height: 1.6;
+  }
+  .styled-list li:last-child { border-bottom: none; }
+  .styled-list li::before {
+    content: '✦';
+    color: var(--gold);
+    font-size: 12px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  /* ===== COMPARISON TABLE ===== */
+  .table-wrap { overflow-x: auto; margin-bottom: 24px; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: 0 2px 16px var(--shadow);
+    min-width: 480px;
+  }
+  thead tr { background: linear-gradient(90deg, var(--gold), var(--gold-dim)); }
+  thead th {
+    color: #fff;
+    padding: 16px 18px;
+    font-size: 13px;
+    font-weight: 700;
+    text-align: left;
+    letter-spacing: .3px;
+  }
+  tbody tr { background: var(--white); transition: background .15s; }
+  tbody tr:nth-child(even) { background: var(--cream); }
+  tbody tr:hover { background: var(--gold-pale); }
+  tbody td {
+    padding: 14px 18px;
+    font-size: 13px;
+    color: var(--text-mid);
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    line-height: 1.6;
+  }
+  .td-label { font-weight: 700; color: var(--text); }
+  .badge-syariah { background: #d4edda; color: #276738; border-radius:6px; padding: 2px 8px; font-size:11px; font-weight:700; }
+  .badge-konven { background: #dce3ff; color: #2d3db0; border-radius:6px; padding: 2px 8px; font-size:11px; font-weight:700; }
+
+  /* ===== FLASHCARDS ===== */
+  .flashcard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 20px;
+    margin-bottom: 40px;
+  }
+  .flashcard-wrap { perspective: 1000px; cursor: pointer; }
+  .flashcard-inner {
+    position: relative;
+    height: 190px;
+    transform-style: preserve-3d;
+    transition: transform .55s cubic-bezier(.4,0,.2,1);
+    border-radius: var(--radius);
+  }
+  .flashcard-wrap.flipped .flashcard-inner { transform: rotateY(180deg); }
+  .flashcard-front, .flashcard-back {
+    position: absolute; inset: 0;
+    border-radius: var(--radius);
+    backface-visibility: hidden;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 24px;
+    text-align: center;
+    box-shadow: 0 4px 16px var(--shadow);
+  }
+  .flashcard-front {
+    background: linear-gradient(135deg, var(--gold), var(--gold-dim));
+    color: #fff;
+  }
+  .flashcard-back {
+    background: var(--white);
+    border: 2px solid var(--border);
+    color: var(--text);
+    transform: rotateY(180deg);
+  }
+  .flashcard-front h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px; font-weight: 800;
+    margin-bottom: 8px;
+  }
+  .flashcard-front span { font-size: 12px; opacity: .8; }
+  .flashcard-back p { font-size: 13px; color: var(--text-mid); line-height: 1.65; }
+  .flashcard-back small { font-size: 11px; color: var(--gold); font-weight: 700; margin-top: 10px; display: block; }
+
+  /* ===== QUIZ ===== */
+  .quiz-wrap {
+    background: var(--white);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 36px 40px;
+    box-shadow: 0 4px 20px var(--shadow);
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  .progress-bar-outer {
+    width: 100%; height: 8px;
+    background: var(--cream);
+    border-radius: 99px;
+    overflow: hidden;
+    margin-bottom: 28px;
+  }
+  .progress-bar-inner {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold), var(--gold-light));
+    border-radius: 99px;
+    transition: width .4s ease;
+  }
+  .quiz-counter {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--gold-dim);
+    margin-bottom: 6px;
+    letter-spacing: .5px;
+  }
+  .quiz-question {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px; font-weight: 700;
+    color: var(--text);
+    line-height: 1.4;
+    margin-bottom: 24px;
+  }
+  .quiz-options { display: flex; flex-direction: column; gap: 12px; }
+  .quiz-option {
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 18px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-mid);
+    background: var(--off-white);
+    cursor: pointer;
+    text-align: left;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    transition: all .18s;
+  }
+  .quiz-option:hover { background: var(--gold-pale); border-color: var(--gold); color: var(--text); }
+  .quiz-option.correct { background: #d4edda; border-color: #52b56e; color: #1a5e30; font-weight:700; }
+  .quiz-option.wrong { background: #fde4e4; border-color: #d95454; color: #7a1f1f; font-weight:700; }
+  .quiz-option:disabled { cursor: not-allowed; }
+  .quiz-feedback {
+    margin-top: 18px;
+    padding: 14px 18px;
+    border-radius: 10px;
+    font-size: 13.5px;
+    font-weight: 600;
+    display: none;
+    line-height: 1.6;
+  }
+  .quiz-feedback.show { display:block; }
+  .quiz-feedback.correct { background: #d4edda; color: #1a5e30; border: 1px solid #52b56e; }
+  .quiz-feedback.wrong { background: #fde4e4; color: #7a1f1f; border: 1px solid #d95454; }
+  .quiz-next {
+    margin-top: 20px;
+    background: var(--gold);
+    color: #fff;
+    border: none;
+    padding: 13px 28px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    display: none;
+    transition: background .2s;
+  }
+  .quiz-next:hover { background: var(--gold-dim); }
+  .quiz-next.show { display: inline-block; }
+
+  .quiz-result {
+    text-align: center;
+    padding: 20px 0;
+  }
+  .quiz-score-big {
+    font-family: 'Playfair Display', serif;
+    font-size: 72px; font-weight: 800;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .quiz-result p { font-size: 15px; color: var(--text-mid); margin-bottom: 20px; }
+  .quiz-restart {
+    background: var(--gold);
+    color: #fff; border:none;
+    padding: 13px 28px;
+    border-radius: 10px;
+    font-size: 14px; font-weight: 700;
+    cursor: pointer;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    transition: background .2s;
+  }
+  .quiz-restart:hover { background: var(--gold-dim); }
+
+  /* ===== GLOSSARY ===== */
+  .glossary-search {
+    width: 100%; padding: 14px 18px;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    font-size: 14px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: var(--white);
+    color: var(--text);
+    outline: none;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 8px var(--shadow);
+    transition: border-color .2s;
+  }
+  .glossary-search:focus { border-color: var(--gold); }
+  .glossary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+  }
+  .glossary-item {
+    background: var(--white);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 22px;
+    box-shadow: 0 2px 10px var(--shadow);
+    transition: transform .2s, box-shadow .2s;
+  }
+  .glossary-item:hover { transform: translateY(-2px); box-shadow: 0 8px 24px var(--shadow-strong); }
+  .glossary-term {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px; font-weight: 700;
+    color: var(--gold-dim);
+    margin-bottom: 8px;
+  }
+  .glossary-def {
+    font-size: 13px; color: var(--text-mid);
+    line-height: 1.65;
+  }
+  .glossary-tag {
+    display: inline-block;
+    background: var(--gold-pale);
+    color: var(--gold-dim);
+    font-size: 10px; font-weight: 700;
+    padding: 3px 8px; border-radius: 99px;
+    margin-top: 10px;
+    letter-spacing: .4px;
+    text-transform: uppercase;
+  }
+  .glossary-empty { text-align:center; color: var(--text-light); padding: 40px; font-size:14px; }
+
+  /* ===== TUJUAN ===== */
+  .tujuan-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 18px;
+    margin-bottom: 30px;
+  }
+  .tujuan-card {
+    background: var(--white);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px 22px;
+    display: flex; gap: 16px; align-items: flex-start;
+    box-shadow: 0 2px 12px var(--shadow);
+  }
+  .tujuan-num {
+    width: 40px; height: 40px; border-radius: 12px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-dim));
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 18px; font-weight: 800;
+    flex-shrink: 0;
+  }
+  .tujuan-text h4 {
+    font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 5px;
+  }
+  .tujuan-text p { font-size: 13px; color: var(--text-light); line-height: 1.6; }
+
+  /* ===== CHIP TAGS ===== */
+  .chip-row { display:flex; flex-wrap:wrap; gap:8px; margin: 16px 0; }
+  .chip {
+    background: var(--gold-pale);
+    border: 1px solid var(--border);
+    color: var(--gold-dim);
+    font-size: 12px; font-weight: 700;
+    padding: 6px 14px; border-radius: 99px;
+  }
+
+  /* ===== MATERI TABS ===== */
+  .sub-tabs {
+    display: flex; gap: 6px; flex-wrap: wrap;
+    margin-bottom: 28px;
+  }
+  .sub-tab {
+    padding: 8px 18px; border-radius: 10px;
+    border: 1.5px solid var(--border);
+    background: var(--white);
+    font-size: 13px; font-weight: 600;
+    color: var(--text-mid); cursor: pointer;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    transition: all .18s;
+  }
+  .sub-tab:hover { background: var(--gold-pale); border-color: var(--gold); }
+  .sub-tab.active { background: var(--gold); border-color: var(--gold); color: #fff; }
+  .sub-content { display:none; }
+  .sub-content.active { display:block; }
+
+  /* ===== FOOTER ===== */
+  .footer {
+    text-align:center;
+    padding: 32px 24px 16px;
+    font-size: 12px; color: var(--text-light);
+    border-top: 1px solid var(--border);
+    margin-top: 40px;
+  }
+
+  /* ===== ANIMATIONS ===== */
+  @keyframes fadeUp {
+    from { opacity:0; transform: translateY(20px); }
+    to { opacity:1; transform: translateY(0); }
+  }
+  .page.active > .container > * {
+    animation: fadeUp .4s ease both;
+  }
+  .page.active > .container > *:nth-child(2) { animation-delay:.06s; }
+  .page.active > .container > *:nth-child(3) { animation-delay:.12s; }
+  .page.active > .container > *:nth-child(4) { animation-delay:.18s; }
+  .page.active > .container > *:nth-child(5) { animation-delay:.24s; }
+
+  @media(max-width:600px) {
+    .hero { padding: 36px 24px; }
+    .quiz-wrap { padding: 24px 20px; }
+    .info-block { padding: 20px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Bank & IKNB</div>
+  <div class="nav-divider"></div>
+  <button class="active" onclick="showPage('beranda', this)">🏠 Beranda</button>
+  <button onclick="showPage('tujuan', this)">🎯 Tujuan</button>
+  <button onclick="showPage('bank', this)">🏦 Bank</button>
+  <button onclick="showPage('iknb', this)">💼 IKNB</button>
+  <button onclick="showPage('ojk', this)">⚖️ OJK & LPS</button>
+  <button onclick="showPage('perbandingan', this)">📊 Perbandingan</button>
+  <button onclick="showPage('flashcard', this)">🃏 Flashcard</button>
+  <button onclick="showPage('kuis', this)">📝 Kuis</button>
+  <button onclick="showPage('glosarium', this)">📖 Glosarium</button>
+</nav>
+
+<!-- ==================== BERANDA ==================== -->
+<div id="beranda" class="page active">
+  <div class="container">
+    <div class="hero">
+      <span class="hero-badge">Media Pembelajaran Interaktif</span>
+      <h1>Bank & Industri Keuangan Non Bank</h1>
+      <div class="hero-meta">
+        <span class="hero-chip">👨‍🎓 Zenedine Al Zaviar</span>
+        <span class="hero-chip">🏫 Kelas X-1</span>
+        <span class="hero-chip">📋 No. Absen 27</span>
+      </div>
+      <p>Selamat datang! Jelajahi materi tentang sistem perbankan Indonesia dan Industri Keuangan Non Bank secara interaktif, lengkap dengan kuis, flashcard, dan glosarium.</p>
+    </div>
+
+    <!-- DYK -->
+    <div class="did-you-know" id="dyk-box">
+      <h3>💡 Tahukah Kamu?</h3>
+      <p id="dyk-text">Bank Indonesia didirikan pada 1 Juli 1953 dan merupakan satu-satunya lembaga yang berhak mengeluarkan uang rupiah sebagai alat pembayaran yang sah di Indonesia.</p>
+      <div class="dyk-nav">
+        <button class="dyk-btn" onclick="changeDyk(-1)">← Sebelumnya</button>
+        <button class="dyk-btn" onclick="changeDyk(1)">Selanjutnya →</button>
+      </div>
+    </div>
+
+    <!-- QUICK NAV CARDS -->
+    <div class="gold-line"></div>
+    <div class="page-subtitle">Mulai dari mana?</div>
+    <div class="cards-grid">
+      <div class="card" onclick="showPage('bank', document.querySelector('[onclick*=bank]'))">
+        <div class="card-icon">🏦</div>
+        <h3>Materi Bank</h3>
+        <p>Pelajari jenis, fungsi, dan peran berbagai bank di Indonesia — dari Bank Sentral hingga BPR.</p>
+      </div>
+      <div class="card" onclick="showPage('iknb', document.querySelector('[onclick*=iknb]'))">
+        <div class="card-icon">💼</div>
+        <h3>Industri Keuangan Non Bank</h3>
+        <p>Kenali Pasar Modal, Asuransi, Pegadaian, Leasing, Fintech, dan Dana Pensiun.</p>
+      </div>
+      <div class="card" onclick="showPage('perbandingan', document.querySelector('[onclick*=perbandingan]'))">
+        <div class="card-icon">📊</div>
+        <h3>Tabel Perbandingan</h3>
+        <p>Bandingkan Bank Syariah vs Konvensional dan Bank Umum vs BPR dalam tabel visual.</p>
+      </div>
+      <div class="card" onclick="showPage('flashcard', document.querySelector('[onclick*=flashcard]'))">
+        <div class="card-icon">🃏</div>
+        <h3>Flashcard</h3>
+        <p>Hafal istilah-istilah penting dengan kartu interaktif yang bisa dibalik.</p>
+      </div>
+      <div class="card" onclick="showPage('kuis', document.querySelector('[onclick*=kuis]'))">
+        <div class="card-icon">📝</div>
+        <h3>Kuis Interaktif</h3>
+        <p>Uji pemahaman kamu dengan 10 soal pilihan ganda beserta feedback langsung.</p>
+      </div>
+      <div class="card" onclick="showPage('glosarium', document.querySelector('[onclick*=glosarium]'))">
+        <div class="card-icon">📖</div>
+        <h3>Glosarium</h3>
+        <p>Cari definisi istilah keuangan dengan fitur pencarian cepat.</p>
+      </div>
+    </div>
+  </div>
+  <div class="footer">© 2025 Zenedine Al Zaviar · X-1 · No. 27 — Bank & IKNB Media Pembelajaran</div>
+</div>
+
+<!-- ==================== TUJUAN ==================== -->
+<div id="tujuan" class="page">
+  <div class="container">
+    <div class="gold-line"></div>
+    <div class="page-title">Tujuan Pembelajaran</div>
+    <div class="page-subtitle">Setelah mempelajari materi ini, siswa diharapkan mampu:</div>
+
+    <div class="tujuan-grid">
+      <div class="tujuan-card"><div class="tujuan-num">1</div><div class="tujuan-text"><h4>Menjelaskan Pengertian Bank</h4><p>Memahami definisi bank dan perannya dalam perekonomian Indonesia.</p></div></div>
+      <div class="tujuan-card"><div class="tujuan-num">2</div><div class="tujuan-text"><h4>Mengidentifikasi Jenis Bank</h4><p>Membedakan jenis bank berdasarkan fungsi, kepemilikan, dan prinsip operasional.</p></div></div>
+      <div class="tujuan-card"><div class="tujuan-num">3</div><div class="tujuan-text"><h4>Memahami Tugas Bank Sentral</h4><p>Mendeskripsikan peran Bank Indonesia sebagai bank sentral NKRI.</p></div></div>
+      <div class="tujuan-card"><div class="tujuan-num">4</div><div class="tujuan-text"><h4>Menganalisis Fungsi Bank Umum</h4><p>Menguraikan fungsi penghimpun dana, penyalur dana, dan pelayan jasa.</p></div></div>
+      <div class="tujuan-card"><div class="tujuan-num">5</div><div class="tujuan-text"><h4>Membedakan Bank Syariah & Konvensional</h4><p>Mengidentifikasi perbedaan prinsip, sistem, dan karakteristik keduanya.</p></div></div>
+      <div class="tujuan-card"><div class="tujuan-num">6</div><div class="tujuan-text"><h4>Mengenal Jenis IKNB</h4><p>Menjelaskan Pasar Modal, Asuransi, Pegadaian, Leasing, Fintech, dan Dana Pensiun.</p></div></div>
+      <div class="tujuan-card"><div class="tujuan-num">7</div><div class="tujuan-text"><h4>Memahami Peran OJK & LPS</h4><p>Mendeskripsikan fungsi dan tugas OJK serta LPS dalam sistem keuangan nasional.</p></div></div>
+      <div class="tujuan-card"><div class="tujuan-num">8</div><div class="tujuan-text"><h4>Menerapkan Literasi Keuangan</h4><p>Menggunakan pemahaman ini untuk membuat keputusan keuangan yang tepat dalam kehidupan sehari-hari.</p></div></div>
+    </div>
+
+    <div class="info-block">
+      <h3>📚 Kompetensi Dasar</h3>
+      <p>KD 3.6 — Mendeskripsikan bank, lembaga keuangan bukan bank, Otoritas Jasa Keuangan (OJK), dan Lembaga Penjamin Simpanan (LPS).<br><br>
+      KD 4.6 — Menyajikan tugas, produk, dan peran lembaga jasa keuangan dalam perekonomian Indonesia.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== BANK ==================== -->
+<div id="bank" class="page">
+  <div class="container">
+    <div class="gold-line"></div>
+    <div class="page-title">Bank</div>
+    <div class="page-subtitle">Lembaga keuangan penghimpun dan penyalur dana masyarakat</div>
+
+    <div class="sub-tabs">
+      <button class="sub-tab active" onclick="showSubTab('bank','sentral',this)">🏛️ Bank Sentral</button>
+      <button class="sub-tab" onclick="showSubTab('bank','umum',this)">🏦 Bank Umum</button>
+      <button class="sub-tab" onclick="showSubTab('bank','bpr',this)">🏘️ BPR</button>
+      <button class="sub-tab" onclick="showSubTab('bank','kepemilikan',this)">👥 Kepemilikan</button>
+    </div>
+
+    <!-- SENTRAL -->
+    <div id="bank-sentral" class="sub-content active">
+      <div class="info-block">
+        <h3>🏛️ Bank Sentral (Bank Indonesia)</h3>
+        <p>Bank yang berfungsi sebagai <strong>bank sirkulasi</strong> dan sebagai <strong>induk dari bank-bank lain</strong> (banker of banks). Berdasarkan UU No. 13 Tahun 1999, tujuan Bank Indonesia adalah <strong>mencapai dan memelihara kestabilan nilai rupiah</strong>.</p>
+      </div>
+
+      <div class="accordion">
+        <div class="accordion-item">
+          <button class="accordion-header" onclick="toggleAccordion(this)">
+            📌 Tugas 1: Mengeluarkan Alat Pembayaran yang Sah
+            <span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-body">
+            <div class="accordion-body-inner">
+              Bank sentral memiliki <strong>hak monopoli</strong> untuk mencetak dan mengedarkan uang kertas serta logam sebagai alat pembayaran yang sah di seluruh wilayah NKRI. Tidak ada lembaga lain yang boleh menerbitkan uang rupiah.
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-header" onclick="toggleAccordion(this)">
+            📌 Tugas 2: Menetapkan & Melaksanakan Kebijakan Moneter
+            <span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-body">
+            <div class="accordion-body-inner">
+              Kebijakan pengendalian jumlah uang yang beredar agar sesuai dengan kebutuhan sistem perekonomian. Contoh instrumen: suku bunga acuan (BI Rate), operasi pasar terbuka, dan rasio cadangan wajib (GWM).
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-header" onclick="toggleAccordion(this)">
+            📌 Tugas 3: Mengatur & Menjaga Kelancaran Sistem Pembayaran
+            <span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-body">
+            <div class="accordion-body-inner">
+              BI berwenang melaksanakan dan memberikan persetujuan serta izin atas penyelenggaraan jasa sistem pembayaran (termasuk transfer dana, kliring, dan sistem pembayaran elektronik) serta melaporkan kegiatannya.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- UMUM -->
+    <div id="bank-umum" class="sub-content">
+      <div class="info-block">
+        <h3>🏦 Bank Umum</h3>
+        <p>Badan usaha yang <strong>menghimpun dana</strong> dari masyarakat dalam bentuk simpanan dan <strong>menyalurkannya</strong> kepada masyarakat dalam rangka meningkatkan taraf hidup rakyat banyak.</p>
+      </div>
+
+      <div class="accordion">
+        <div class="accordion-item">
+          <button class="accordion-header" onclick="toggleAccordion(this)">
+            💰 Penghimpun Dana: Tabungan, Deposito & Giro
+            <span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-body">
+            <div class="accordion-body-inner">
+              <ul class="styled-list">
+                <li><strong>Tabungan (Saving Deposit):</strong> Penyetoran dan penarikan dapat dilakukan kapan saja. Cocok untuk menyimpan dana harian.</li>
+                <li><strong>Deposito:</strong> Penyetoran dan penarikan hanya pada waktu tertentu. Bunga lebih tinggi dari tabungan biasa.</li>
+                <li><strong>Giro (Demand Deposit):</strong> Dana dapat ditarik kapan saja via cek atau bilyet giro. Fokus untuk transaksi bisnis frekuensi tinggi. <em>Cek</em> = bisa langsung dicairkan; <em>Bilyet Giro</em> = harus disetorkan ke rekening.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-header" onclick="toggleAccordion(this)">
+            🏠 Penyalur Dana: Jenis-jenis Kredit
+            <span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-body">
+            <div class="accordion-body-inner">
+              <ul class="styled-list">
+                <li><strong>Kredit Pemilikan Rumah (KPR):</strong> Kredit untuk membeli rumah dengan jaminan berupa rumah itu sendiri.</li>
+                <li><strong>Kredit Modal Kerja:</strong> Untuk pembiayaan operasional perusahaan, baik perorangan maupun berbadan hukum.</li>
+                <li><strong>Kredit Investasi:</strong> Untuk membiayai pembangunan gedung, pembelian mesin, atau perluasan usaha.</li>
+                <li><strong>Kartu Kredit:</strong> Alat pembayaran non tunai; penerbit memberikan pinjaman, bukan mengambil saldo rekening.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-header" onclick="toggleAccordion(this)">
+            🔧 Pelayan Jasa: Transfer, Tagihan & Safe Deposit Box
+            <span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-body">
+            <div class="accordion-body-inner">
+              <ul class="styled-list">
+                <li><strong>Jasa Pengiriman Uang:</strong> via kantor cabang, ATM, Internet Banking, Mobile Banking.</li>
+                <li><strong>Jasa Transaksi Pembiayaan:</strong> Tagihan listrik, air, pembayaran uang sekolah/kuliah.</li>
+                <li><strong>Jasa Transaksi Pembelian:</strong> Pulsa telepon, tiket kereta, dll.</li>
+                <li><strong>Safe Deposit Box:</strong> Layanan penyimpanan barang berharga di brankas bank.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BPR -->
+    <div id="bank-bpr" class="sub-content">
+      <div class="info-block">
+        <h3>🏘️ Bank Perkreditan Rakyat (BPR)</h3>
+        <p>Bank yang menerima simpanan <strong>hanya dalam bentuk deposito berjangka, tabungan</strong>, dan bentuk lainnya yang setara. BPR melayani kebutuhan masyarakat golongan menengah ke bawah, terutama di pedesaan.</p>
+      </div>
+
+      <div class="accordion">
+        <div class="accordion-item">
+          <button class="accordion-header" onclick="toggleAccordion(this)">
+            ✅ Kegiatan yang BOLEH Dijalankan BPR
+            <span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-body">
+            <div class="accordion-body-inner">
+              <ul class="styled-list">
+                <li>Menghimpun dana dalam bentuk tabungan dan deposito berjangka</li>
+                <li>Menyalurkan kredit/pinjaman kepada masyarakat</li>
+                <li>Menyediakan pembiayaan berdasarkan prinsip bagi hasil (syariah)</li>
+                <li>Menempatkan dana dalam bentuk SBI, deposito, atau tabungan di bank lain</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-header" onclick="toggleAccordion(this)">
+            ❌ Kegiatan yang TIDAK BOLEH Dijalankan BPR
+            <span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-body">
+            <div class="accordion-body-inner">
+              <ul class="styled-list">
+                <li>Menerima simpanan dalam bentuk <strong>giro</strong></li>
+                <li>Melakukan <strong>penyertaan modal</strong> di perusahaan lain</li>
+                <li>Menjalankan usaha <strong>asuransi</strong></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- KEPEMILIKAN -->
+    <div id="bank-kepemilikan" class="sub-content">
+      <div class="info-block">
+        <h3>👥 Jenis Bank Berdasarkan Kepemilikan</h3>
+        <p>Bank di Indonesia dapat dibedakan berdasarkan siapa pemegang saham mayoritasnya.</p>
+      </div>
+
+      <div class="accordion">
+        <div class="accordion-item">
+          <button class="accordion-header" onclick="toggleAccordion(this)">
+            🏛️ Bank Milik Pemerintah
+            <span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-body">
+            <div class="accordion-body-inner">
+              <strong>Pusat:</strong> Bank Mandiri, Bank Rakyat Indonesia (BRI), Bank Negara Indonesia (BNI), Bank Tabungan Negara (BTN), Bank Syariah Indonesia (BSI)<br><br>
+              <strong>Daerah:</strong> Bank DKI, Bank Jabar Banten (BJB), Bank Jatim, Bank Nagari, Bank Papua
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-header" onclick="toggleAccordion(this)">
+            🏢 Bank Milik Swasta Nasional
+            <span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-body">
+            <div class="accordion-body-inner">
+              Bank Central Asia (BCA), Bank CIMB Niaga, Bank Danamon Indonesia, Bank Permata, Bank OCBC NISP, Bank Mega, Bank Panin
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-header" onclick="toggleAccordion(this)">
+            🌏 Bank Milik Asing
+            <span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-body">
+            <div class="accordion-body-inner">
+              HSBC (Inggris/Hongkong), Citibank (Amerika Serikat), Maybank (Malaysia), Hana Bank (Korea)
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== IKNB ==================== -->
+<div id="iknb" class="page">
+  <div class="container">
+    <div class="gold-line"></div>
+    <div class="page-title">Industri Keuangan Non Bank (IKNB)</div>
+    <div class="page-subtitle">Lembaga keuangan selain bank yang berperan penting dalam perekonomian</div>
+
+    <div class="info-block">
+      <h3>📌 Apa itu IKNB?</h3>
+      <p>Lembaga yang menyelenggarakan aktivitas keuangan berupa <strong>penghimpunan dana</strong> dari masyarakat, lalu menyalurkannya untuk kegiatan investasi di perusahaan serta menerbitkan surat berharga. IKNB berbeda dari bank karena tidak menerima simpanan giro dan tidak bisa menciptakan uang giral.</p>
+    </div>
+
+    <div class="accordion">
+      <div class="accordion-item">
+        <button class="accordion-header" onclick="toggleAccordion(this)">
+          📈 Pasar Modal
+          <span class="accordion-icon">+</span>
+        </button>
+        <div class="accordion-body">
+          <div class="accordion-body-inner">
+            <p>Tempat bertemunya pihak yang <strong>membutuhkan dana (emiten/perusahaan)</strong> dan pihak yang <strong>memiliki dana (investor)</strong> melalui perdagangan instrumen keuangan jangka panjang, seperti saham dan obligasi.</p>
+            <br>
+            <ul class="styled-list">
+              <li><strong>Saham:</strong> Bukti kepemilikan sebagian perusahaan; investor mendapat dividen dan capital gain.</li>
+              <li><strong>Obligasi:</strong> Surat utang jangka panjang yang diterbitkan perusahaan atau pemerintah.</li>
+              <li><strong>Bursa Efek Indonesia (IDX):</strong> Lembaga yang memfasilitasi perdagangan efek di Indonesia.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-header" onclick="toggleAccordion(this)">
+          🤝 Koperasi
+          <span class="accordion-icon">+</span>
+        </button>
+        <div class="accordion-body">
+          <div class="accordion-body-inner">
+            <p>Badan usaha yang dimiliki dan dikelola oleh anggota secara sukarela berdasarkan asas <strong>kekeluargaan</strong>. Berlandaskan UU No. 25 Tahun 1992, menerapkan prinsip <em>satu anggota satu suara</em> dan berorientasi pada pemenuhan kebutuhan anggota, bukan semata profit.</p>
+          </div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-header" onclick="toggleAccordion(this)">
+          🛡️ Asuransi
+          <span class="accordion-icon">+</span>
+        </button>
+        <div class="accordion-body">
+          <div class="accordion-body-inner">
+            <p>Perjanjian kontrak antara <strong>tertanggung (nasabah)</strong> dan <strong>penanggung (perusahaan asuransi)</strong>, di mana nasabah membayar <em>premi</em> untuk mendapat perlindungan finansial atas risiko tak terduga (sakit, kecelakaan, kematian). Jenis: asuransi jiwa, kesehatan, kendaraan, properti, dll.</p>
+          </div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-header" onclick="toggleAccordion(this)">
+          🟢 Pegadaian
+          <span class="accordion-icon">+</span>
+        </button>
+        <div class="accordion-body">
+          <div class="accordion-body-inner">
+            <p>Lembaga keuangan non-bank milik negara (BUMN/anak usaha BRI) yang menyediakan pinjaman cepat dengan <strong>jaminan barang bergerak atau tidak bergerak</strong> serta layanan investasi emas. Melayani kebutuhan dana tunai masyarakat menengah ke bawah.</p>
+          </div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-header" onclick="toggleAccordion(this)">
+          🚗 Leasing (Sewa Guna Usaha)
+          <span class="accordion-icon">+</span>
+        </button>
+        <div class="accordion-body">
+          <div class="accordion-body-inner">
+            <p>Pembiayaan barang modal atau aset oleh perusahaan pembiayaan (<em>lessor</em>) kepada pengguna (<em>lessee</em>) dengan cicilan berkala. Memungkinkan penggunaan aset tanpa modal besar di awal. Di akhir kontrak, lessee dapat membeli, memperpanjang, atau mengembalikan aset.</p>
+          </div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-header" onclick="toggleAccordion(this)">
+          📱 Financial Technology (Fintech)
+          <span class="accordion-icon">+</span>
+        </button>
+        <div class="accordion-body">
+          <div class="accordion-body-inner">
+            <p>Inovasi keuangan berbasis teknologi digital agar layanan keuangan lebih praktis, efisien, dan inklusif. Transaksi dilakukan via aplikasi tanpa tatap muka fisik.</p>
+            <br>
+            <ul class="styled-list">
+              <li><strong>Dompet Digital:</strong> GoPay, OVO, Dana, Flip</li>
+              <li><strong>Pinjaman Online (P2P):</strong> Modalku, Amartha, Kredit Pintar, JULO</li>
+              <li><strong>Manajemen Investasi:</strong> Bibit, Cermati, CekAja</li>
+              <li><strong>Crowdfunding:</strong> Kitabisa</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-header" onclick="toggleAccordion(this)">
+          👴 Dana Pensiun
+          <span class="accordion-icon">+</span>
+        </button>
+        <div class="accordion-body">
+          <div class="accordion-body-inner">
+            <p>Badan hukum yang mengelola dan menjalankan program yang menjanjikan <strong>manfaat pensiun</strong> bagi peserta. Peserta mengiur selama masa kerja dan menerima manfaat saat pensiun. Contoh: BPJS Ketenagakerjaan, DAPENBRI.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== OJK & LPS ==================== -->
+<div id="ojk" class="page">
+  <div class="container">
+    <div class="gold-line"></div>
+    <div class="page-title">OJK & LPS</div>
+    <div class="page-subtitle">Lembaga pengawas dan penjamin sistem keuangan Indonesia</div>
+
+    <div class="sub-tabs">
+      <button class="sub-tab active" onclick="showSubTab('ojk','ojk-main',this)">⚖️ OJK</button>
+      <button class="sub-tab" onclick="showSubTab('ojk','lps-main',this)">🔒 LPS</button>
+    </div>
+
+    <div id="ojk-ojk-main" class="sub-content active">
+      <div class="info-block">
+        <h3>⚖️ Otoritas Jasa Keuangan (OJK)</h3>
+        <p>Lembaga yang berfungsi menyelenggarakan sistem <strong>pengaturan dan pengawasan yang terintegrasi</strong> terhadap keseluruhan kegiatan di sektor jasa keuangan Indonesia.</p>
+      </div>
+
+      <div class="accordion">
+        <div class="accordion-item">
+          <button class="accordion-header" onclick="toggleAccordion(this)">
+            🎯 Tujuan OJK
+            <span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-body">
+            <div class="accordion-body-inner">
+              <ul class="styled-list">
+                <li>Terselenggara secara teratur, adil, transparan, dan akuntabel</li>
+                <li>Mewujudkan sistem keuangan yang tumbuh berkelanjutan dan stabil</li>
+                <li>Melindungi kepentingan konsumen dan masyarakat</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-header" onclick="toggleAccordion(this)">
+            🔧 Fungsi OJK
+            <span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-body">
+            <div class="accordion-body-inner">
+              <ul class="styled-list">
+                <li>Menyelenggarakan sistem pengaturan dan pengawasan terintegrasi di sektor jasa keuangan</li>
+                <li>Memelihara Stabilitas Sistem Keuangan secara aktif</li>
+                <li>Memberikan perlindungan kepada konsumen dan masyarakat</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-header" onclick="toggleAccordion(this)">
+            📋 Ruang Lingkup Tugas OJK
+            <span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-body">
+            <div class="accordion-body-inner">
+              <ul class="styled-list">
+                <li>Perbankan</li>
+                <li>Pasar Modal, Keuangan Derivatif, dan Bursa Karbon</li>
+                <li>Perasuransian, Penjaminan, dan Dana Pensiun</li>
+                <li>Lembaga Pembiayaan, Modal Ventura, Keuangan Mikro</li>
+                <li>ITSK, Aset Keuangan Digital, dan Aset Kripto</li>
+                <li>Edukasi dan Perlindungan Konsumen</li>
+                <li>Asesmen dampak sistemik Konglomerasi Keuangan</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="ojk-lps-main" class="sub-content">
+      <div class="info-block">
+        <h3>🔒 Lembaga Penjamin Simpanan (LPS)</h3>
+        <p>LPS lahir pasca krisis moneter 1998 yang menghantam kawasan Asia, termasuk Indonesia, mengakibatkan dilikuidasinya 16 bank dan menurunnya kepercayaan publik pada sistem perbankan. Pemerintah lalu mengeluarkan <em>blanket guarantee</em> (Keppres No. 26 & 193 Tahun 1998).</p>
+      </div>
+      <div class="accordion">
+        <div class="accordion-item">
+          <button class="accordion-header" onclick="toggleAccordion(this)">
+            🛡️ Fungsi LPS
+            <span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-body">
+            <div class="accordion-body-inner">
+              <ul class="styled-list">
+                <li>Menjamin simpanan nasabah penyimpan</li>
+                <li>Menjamin polis asuransi</li>
+                <li>Memelihara stabilitas sistem perbankan</li>
+                <li>Melakukan resolusi bank gagal</li>
+                <li>Menyelesaikan masalah perusahaan asuransi yang dicabut izinnya oleh OJK</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-header" onclick="toggleAccordion(this)">
+            💡 Berapa Batas Jaminan LPS?
+            <span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-body">
+            <div class="accordion-body-inner">
+              LPS menjamin simpanan nasabah hingga <strong>Rp 2 miliar per nasabah per bank</strong>. Jaminan berlaku jika bank dicabut izin usahanya oleh OJK dan simpanan tercatat serta tidak melebihi bunga wajar yang ditetapkan LPS.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PERBANDINGAN ==================== -->
+<div id="perbandingan" class="page">
+  <div class="container">
+    <div class="gold-line"></div>
+    <div class="page-title">Tabel Perbandingan</div>
+    <div class="page-subtitle">Perbandingan visual antar lembaga keuangan</div>
+
+    <div class="info-block">
+      <h3>📊 Bank Syariah vs Bank Konvensional</h3>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Aspek</th>
+            <th><span class="badge-syariah">Bank Syariah</span></th>
+            <th><span class="badge-konven">Bank Konvensional</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="td-label">Prinsip Dasar</td><td>Hukum Islam (Al-Qur'an & Hadis)</td><td>Hukum positif/perundangan umum</td></tr>
+          <tr><td class="td-label">Sistem Imbal Hasil</td><td>Bagi hasil, margin keuntungan, fee</td><td>Bunga (interest)</td></tr>
+          <tr><td class="td-label">Besaran Return</td><td>Berubah-ubah sesuai kinerja usaha</td><td>Bunga tetap sesuai perjanjian</td></tr>
+          <tr><td class="td-label">Orientasi</td><td>Profit & falah (dunia-akhirat)</td><td>Profit oriented (dunia saja)</td></tr>
+          <tr><td class="td-label">Hubungan Bank-Nasabah</td><td>Kemitraan</td><td>Debitur-Kreditur</td></tr>
+          <tr><td class="td-label">Pengawasan Tambahan</td><td>Dewan Pengawas Syariah (DPS)</td><td>Tidak ada DPS</td></tr>
+          <tr><td class="td-label">Investasi</td><td>Hanya pada usaha halal</td><td>Halal maupun haram (tidak dibatasi)</td></tr>
+          <tr><td class="td-label">Contoh</td><td>Bank Syariah Indonesia (BSI)</td><td>BCA, BRI, Mandiri, BNI</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="info-block" style="margin-top:32px">
+      <h3>📊 Bank Umum vs BPR</h3>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Aspek</th><th>Bank Umum</th><th>BPR</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="td-label">Simpanan Giro</td><td>✅ Bisa menerima</td><td>❌ Tidak boleh</td></tr>
+          <tr><td class="td-label">Simpanan Deposito & Tabungan</td><td>✅ Ya</td><td>✅ Ya</td></tr>
+          <tr><td class="td-label">Layanan Transfer</td><td>✅ Ya (kliring, RTGS, BI-Fast)</td><td>⚠️ Terbatas</td></tr>
+          <tr><td class="td-label">Valuta Asing</td><td>✅ Bank devisa bisa</td><td>❌ Tidak</td></tr>
+          <tr><td class="td-label">Penyertaan Modal</td><td>✅ Diperbolehkan</td><td>❌ Tidak boleh</td></tr>
+          <tr><td class="td-label">Asuransi</td><td>✅ (dengan izin)</td><td>❌ Tidak boleh</td></tr>
+          <tr><td class="td-label">Target Pasar</td><td>Semua segmen</td><td>UKM & masyarakat pedesaan</td></tr>
+          <tr><td class="td-label">Modal Minimum</td><td>Lebih besar</td><td>Lebih kecil</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="info-block" style="margin-top:32px">
+      <h3>📊 Jenis IKNB — Sekilas Pandang</h3>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Lembaga</th><th>Fungsi Utama</th><th>Contoh</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="td-label">Pasar Modal</td><td>Menghubungkan emiten & investor via saham/obligasi</td><td>IDX (Bursa Efek Indonesia)</td></tr>
+          <tr><td class="td-label">Koperasi</td><td>Simpan-pinjam berbasis kekeluargaan</td><td>KUD, Koperasi Simpan Pinjam</td></tr>
+          <tr><td class="td-label">Asuransi</td><td>Perlindungan finansial atas risiko</td><td>Prudential, Allianz, Jasa Raharja</td></tr>
+          <tr><td class="td-label">Pegadaian</td><td>Pinjaman cepat dengan jaminan barang</td><td>PT Pegadaian (Persero)</td></tr>
+          <tr><td class="td-label">Leasing</td><td>Pembiayaan barang modal via cicilan</td><td>Adira Finance, FIF</td></tr>
+          <tr><td class="td-label">Fintech</td><td>Layanan keuangan berbasis digital</td><td>GoPay, OVO, Modalku</td></tr>
+          <tr><td class="td-label">Dana Pensiun</td><td>Mengelola tabungan hari tua pekerja</td><td>BPJS Ketenagakerjaan, DAPEN</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== FLASHCARD ==================== -->
+<div id="flashcard" class="page">
+  <div class="container">
+    <div class="gold-line"></div>
+    <div class="page-title">Flashcard</div>
+    <div class="page-subtitle">Klik kartu untuk melihat definisinya — latih hafalanmu!</div>
+
+    <div class="flashcard-grid">
+      <div class="flashcard-wrap" onclick="this.classList.toggle('flipped')">
+        <div class="flashcard-inner">
+          <div class="flashcard-front"><h4>Bank Sentral</h4><span>Klik untuk lihat definisi</span></div>
+          <div class="flashcard-back"><p>Bank yang berfungsi sebagai bank sirkulasi dan induk bank-bank lain. Di Indonesia: Bank Indonesia (BI). Tujuan: menjaga kestabilan nilai rupiah.</p><small>↩ Klik untuk kembali</small></div>
+        </div>
+      </div>
+      <div class="flashcard-wrap" onclick="this.classList.toggle('flipped')">
+        <div class="flashcard-inner">
+          <div class="flashcard-front"><h4>Tabungan</h4><span>Klik untuk lihat definisi</span></div>
+          <div class="flashcard-back"><p>Produk simpanan bank yang penyetoran dan penarikannya dapat dilakukan kapan saja (Saving Deposit). Cocok untuk kebutuhan sehari-hari.</p><small>↩ Klik untuk kembali</small></div>
+        </div>
+      </div>
+      <div class="flashcard-wrap" onclick="this.classList.toggle('flipped')">
+        <div class="flashcard-inner">
+          <div class="flashcard-front"><h4>Deposito</h4><span>Klik untuk lihat definisi</span></div>
+          <div class="flashcard-back"><p>Produk simpanan bank yang penyetoran/penarikannya hanya bisa dilakukan pada waktu tertentu (jatuh tempo). Bunga lebih tinggi dari tabungan biasa.</p><small>↩ Klik untuk kembali</small></div>
+        </div>
+      </div>
+      <div class="flashcard-wrap" onclick="this.classList.toggle('flipped')">
+        <div class="flashcard-inner">
+          <div class="flashcard-front"><h4>Giro</h4><span>Klik untuk lihat definisi</span></div>
+          <div class="flashcard-back"><p>Simpanan yang bisa ditarik kapan saja via cek atau bilyet giro. Beda dari tabungan: fokus untuk transaksi bisnis frekuensi tinggi dan nominal besar.</p><small>↩ Klik untuk kembali</small></div>
+        </div>
+      </div>
+      <div class="flashcard-wrap" onclick="this.classList.toggle('flipped')">
+        <div class="flashcard-inner">
+          <div class="flashcard-front"><h4>BPR</h4><span>Klik untuk lihat definisi</span></div>
+          <div class="flashcard-back"><p>Bank Perkreditan Rakyat — melayani masyarakat menengah ke bawah/pedesaan. Tidak boleh menerima giro, penyertaan modal, atau asuransi.</p><small>↩ Klik untuk kembali</small></div>
+        </div>
+      </div>
+      <div class="flashcard-wrap" onclick="this.classList.toggle('flipped')">
+        <div class="flashcard-inner">
+          <div class="flashcard-front"><h4>Pasar Modal</h4><span>Klik untuk lihat definisi</span></div>
+          <div class="flashcard-back"><p>Tempat pertemuan emiten (perusahaan butuh dana) dan investor (punya dana) melalui perdagangan instrumen keuangan jangka panjang seperti saham dan obligasi.</p><small>↩ Klik untuk kembali</small></div>
+        </div>
+      </div>
+      <div class="flashcard-wrap" onclick="this.classList.toggle('flipped')">
+        <div class="flashcard-inner">
+          <div class="flashcard-front"><h4>OJK</h4><span>Klik untuk lihat definisi</span></div>
+          <div class="flashcard-back"><p>Otoritas Jasa Keuangan — lembaga pengatur dan pengawas terintegrasi seluruh sektor jasa keuangan Indonesia (bank, pasar modal, IKNB).</p><small>↩ Klik untuk kembali</small></div>
+        </div>
+      </div>
+      <div class="flashcard-wrap" onclick="this.classList.toggle('flipped')">
+        <div class="flashcard-inner">
+          <div class="flashcard-front"><h4>LPS</h4><span>Klik untuk lihat definisi</span></div>
+          <div class="flashcard-back"><p>Lembaga Penjamin Simpanan — menjamin simpanan nasabah bank (maks. Rp2 miliar/nasabah/bank) jika bank dicabut izin usahanya oleh OJK.</p><small>↩ Klik untuk kembali</small></div>
+        </div>
+      </div>
+      <div class="flashcard-wrap" onclick="this.classList.toggle('flipped')">
+        <div class="flashcard-inner">
+          <div class="flashcard-front"><h4>Leasing</h4><span>Klik untuk lihat definisi</span></div>
+          <div class="flashcard-back"><p>Sewa guna usaha: pembiayaan aset oleh lessor kepada lessee dengan cicilan berkala. Di akhir kontrak bisa beli, perpanjang, atau kembalikan aset.</p><small>↩ Klik untuk kembali</small></div>
+        </div>
+      </div>
+      <div class="flashcard-wrap" onclick="this.classList.toggle('flipped')">
+        <div class="flashcard-inner">
+          <div class="flashcard-front"><h4>Asuransi</h4><span>Klik untuk lihat definisi</span></div>
+          <div class="flashcard-back"><p>Kontrak antara tertanggung (nasabah) & penanggung (perusahaan), di mana nasabah bayar premi untuk mendapat perlindungan finansial atas risiko tak terduga.</p><small>↩ Klik untuk kembali</small></div>
+        </div>
+      </div>
+      <div class="flashcard-wrap" onclick="this.classList.toggle('flipped')">
+        <div class="flashcard-inner">
+          <div class="flashcard-front"><h4>Fintech</h4><span>Klik untuk lihat definisi</span></div>
+          <div class="flashcard-back"><p>Financial Technology — inovasi layanan keuangan berbasis teknologi digital (dompet digital, P2P lending, investasi online, crowdfunding) tanpa tatap muka fisik.</p><small>↩ Klik untuk kembali</small></div>
+        </div>
+      </div>
+      <div class="flashcard-wrap" onclick="this.classList.toggle('flipped')">
+        <div class="flashcard-inner">
+          <div class="flashcard-front"><h4>Bagi Hasil</h4><span>Klik untuk lihat definisi</span></div>
+          <div class="flashcard-back"><p>Prinsip Bank Syariah: keuntungan dan kerugian dibagi antara bank dan nasabah sesuai nisbah yang disepakati, bukan bunga tetap seperti bank konvensional.</p><small>↩ Klik untuk kembali</small></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== KUIS ==================== -->
+<div id="kuis" class="page">
+  <div class="container">
+    <div class="gold-line"></div>
+    <div class="page-title">Kuis Interaktif</div>
+    <div class="page-subtitle">10 soal pilihan ganda — uji pemahamanmu!</div>
+
+    <div class="quiz-wrap">
+      <div class="progress-bar-outer">
+        <div class="progress-bar-inner" id="quiz-progress" style="width:10%"></div>
+      </div>
+      <div id="quiz-container">
+        <div class="quiz-counter" id="quiz-counter">Soal 1 dari 10</div>
+        <div class="quiz-question" id="quiz-question"></div>
+        <div class="quiz-options" id="quiz-options"></div>
+        <div class="quiz-feedback" id="quiz-feedback"></div>
+        <button class="quiz-next" id="quiz-next" onclick="nextQuestion()">Soal Berikutnya →</button>
+      </div>
+      <div id="quiz-result" style="display:none" class="quiz-result">
+        <div class="quiz-score-big" id="quiz-score-big"></div>
+        <p id="quiz-result-msg"></p>
+        <button class="quiz-restart" onclick="restartQuiz()">🔄 Ulangi Kuis</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== GLOSARIUM ==================== -->
+<div id="glosarium" class="page">
+  <div class="container">
+    <div class="gold-line"></div>
+    <div class="page-title">Glosarium</div>
+    <div class="page-subtitle">Cari istilah keuangan dengan cepat</div>
+
+    <input type="text" class="glossary-search" placeholder="🔍 Ketik istilah yang ingin dicari..." oninput="filterGlossary(this.value)" id="glossary-input">
+
+    <div class="glossary-grid" id="glossary-grid"></div>
+    <div class="glossary-empty" id="glossary-empty" style="display:none">Istilah tidak ditemukan. Coba kata kunci lain.</div>
+  </div>
+</div>
+
+<script>
+// ============ PAGE NAVIGATION ============
+function showPage(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if (btn) btn.classList.add('active');
+}
+
+// ============ SUBTABS ============
+function showSubTab(pagePrefix, id, btn) {
+  const prefix = pagePrefix + '-';
+  document.querySelectorAll('[id^="' + prefix + '"]').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('#' + pagePrefix + ' .sub-tab').forEach(b => b.classList.remove('active'));
+  document.getElementById(prefix + id).classList.add('active');
+  if (btn) btn.classList.add('active');
+}
+
+// ============ ACCORDION ============
+function toggleAccordion(btn) {
+  const body = btn.nextElementSibling;
+  const isOpen = btn.classList.contains('open');
+  // close all in same accordion
+  const accordion = btn.closest('.accordion');
+  accordion.querySelectorAll('.accordion-header').forEach(h => {
+    h.classList.remove('open');
+    h.nextElementSibling.classList.remove('open');
+  });
+  if (!isOpen) {
+    btn.classList.add('open');
+    body.classList.add('open');
+  }
+}
+
+// ============ DID YOU KNOW ============
+const dykFacts = [
+  "Bank Indonesia didirikan pada 1 Juli 1953 dan merupakan satu-satunya lembaga yang berhak mengeluarkan uang rupiah sebagai alat pembayaran yang sah di Indonesia.",
+  "BCA (Bank Central Asia) adalah bank swasta terbesar di Indonesia berdasarkan total aset dan jumlah nasabah.",
+  "OJK mulai beroperasi penuh pada 31 Desember 2013 setelah mengambil alih fungsi pengawasan bank dari Bank Indonesia.",
+  "Fintech di Indonesia tumbuh pesat — pada 2023 terdapat lebih dari 100 platform P2P lending yang terdaftar/berizin OJK.",
+  "LPS menjamin simpanan nasabah hingga Rp2 miliar per nasabah per bank — jauh lebih tinggi dari batas awal Rp100 juta saat pertama dibentuk.",
+  "Koperasi simpan pinjam di Indonesia berjumlah lebih dari 60.000 unit dan melayani jutaan anggota di seluruh nusantara.",
+  "Bursa Efek Indonesia (IDX) menggabungkan dua bursa — Bursa Efek Jakarta dan Bursa Efek Surabaya — pada tahun 2007.",
+  "Pegadaian sudah beroperasi sejak zaman Hindia Belanda, tepatnya didirikan di Sukabumi pada 1 April 1901."
+];
+let dykIdx = 0;
+function changeDyk(dir) {
+  dykIdx = (dykIdx + dir + dykFacts.length) % dykFacts.length;
+  const el = document.getElementById('dyk-text');
+  el.style.opacity = 0;
+  setTimeout(() => { el.textContent = dykFacts[dykIdx]; el.style.opacity = 1; }, 180);
+  el.style.transition = 'opacity .18s';
+}
+
+// ============ QUIZ ============
+const questions = [
+  { q: "Berdasarkan UU No. 13 Tahun 1999, tujuan Bank Indonesia adalah...", opts: ["Mencari keuntungan sebesar-besarnya","Mencapai dan memelihara kestabilan nilai rupiah","Mengawasi seluruh lembaga keuangan","Memberikan kredit kepada pemerintah"], ans: 1, exp: "Benar! Berdasarkan UU No. 13 Tahun 1999, tujuan Bank Indonesia adalah mencapai dan memelihara kestabilan nilai rupiah." },
+  { q: "Produk simpanan bank yang penyetoran dan penarikannya dapat dilakukan kapan saja disebut...", opts: ["Deposito","Giro","Tabungan","Obligasi"], ans: 2, exp: "Benar! Tabungan (Saving Deposit) bisa disetorkan/ditarik kapan saja. Deposito hanya bisa pada waktu tertentu." },
+  { q: "Berikut ini yang TIDAK BOLEH dilakukan oleh BPR adalah...", opts: ["Menghimpun tabungan","Menyalurkan kredit","Menerima giro","Deposito berjangka"], ans: 2, exp: "Benar! BPR tidak boleh menerima simpanan dalam bentuk giro, penyertaan modal, dan asuransi." },
+  { q: "Bank yang berfungsi sebagai 'banker of banks' dan memiliki hak monopoli mencetak uang disebut...", opts: ["Bank Umum","Bank Syariah","Bank Sentral","Bank BPR"], ans: 2, exp: "Benar! Bank Sentral (Bank Indonesia) berfungsi sebagai induk bank-bank lain dan satu-satunya yang boleh mengedarkan uang rupiah." },
+  { q: "Perbedaan utama antara Cek dan Bilyet Giro adalah...", opts: ["Cek harus disetorkan ke rekening, bilyet giro bisa dicairkan langsung","Bilyet giro bisa dicairkan langsung, cek harus disetorkan ke rekening","Cek bisa dicairkan langsung di bank, bilyet giro harus disetorkan ke rekening","Keduanya bisa dicairkan langsung di bank"], ans: 2, exp: "Benar! Cek bisa langsung dicairkan di bank. Bilyet giro tidak bisa diuangkan langsung, harus disetorkan ke rekening." },
+  { q: "Lembaga yang menghubungkan emiten (perusahaan butuh dana) dan investor melalui perdagangan saham & obligasi disebut...", opts: ["Koperasi","Pasar Modal","Pegadaian","Dana Pensiun"], ans: 1, exp: "Benar! Pasar Modal (diwakili oleh IDX) adalah tempat bertemunya emiten dan investor melalui instrumen keuangan jangka panjang." },
+  { q: "Bank Syariah menggunakan sistem... sedangkan Bank Konvensional menggunakan sistem...", opts: ["Bunga / Bagi Hasil","Bagi Hasil / Bunga","Premi / Deposito","Giro / Tabungan"], ans: 1, exp: "Benar! Bank Syariah menggunakan bagi hasil (plus margin & fee), sementara Bank Konvensional menggunakan sistem bunga (interest)." },
+  { q: "OJK singkatan dari...", opts: ["Organisasi Jaminan Keuangan","Otoritas Jasa Keuangan","Operasional Jasa Keuangan","Organisasi Jasa Keuangan"], ans: 1, exp: "Benar! OJK = Otoritas Jasa Keuangan, lembaga pengawas terintegrasi seluruh sektor jasa keuangan Indonesia." },
+  { q: "LPS (Lembaga Penjamin Simpanan) menjamin simpanan nasabah hingga maksimal...", opts: ["Rp 500 juta","Rp 1 miliar","Rp 2 miliar","Rp 5 miliar"], ans: 2, exp: "Benar! LPS menjamin simpanan nasabah hingga Rp 2 miliar per nasabah per bank jika bank dicabut izin usahanya." },
+  { q: "GoPay, OVO, dan DANA adalah contoh dari jenis IKNB yang disebut...", opts: ["Pegadaian","Leasing","Asuransi","Fintech (Dompet Digital)"], ans: 3, exp: "Benar! GoPay, OVO, dan DANA adalah aplikasi dompet digital yang termasuk kategori Financial Technology (Fintech)." }
+];
+
+let curQ = 0, score = 0, answered = false;
+
+function loadQuestion() {
+  const q = questions[curQ];
+  document.getElementById('quiz-counter').textContent = `Soal ${curQ+1} dari ${questions.length}`;
+  document.getElementById('quiz-progress').style.width = ((curQ+1)/questions.length*100) + '%';
+  document.getElementById('quiz-question').textContent = q.q;
+  const opts = document.getElementById('quiz-options');
+  opts.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-option';
+    btn.textContent = String.fromCharCode(65+i) + '. ' + opt;
+    btn.onclick = () => selectAnswer(i);
+    opts.appendChild(btn);
+  });
+  document.getElementById('quiz-feedback').className = 'quiz-feedback';
+  document.getElementById('quiz-feedback').textContent = '';
+  document.getElementById('quiz-next').className = 'quiz-next';
+  answered = false;
+}
+
+function selectAnswer(i) {
+  if (answered) return;
+  answered = true;
+  const q = questions[curQ];
+  const btns = document.querySelectorAll('.quiz-option');
+  btns.forEach(b => b.disabled = true);
+  const fb = document.getElementById('quiz-feedback');
+  const nxt = document.getElementById('quiz-next');
+  if (i === q.ans) {
+    btns[i].classList.add('correct');
+    score++;
+    fb.textContent = '✅ ' + q.exp;
+    fb.className = 'quiz-feedback correct show';
+  } else {
+    btns[i].classList.add('wrong');
+    btns[q.ans].classList.add('correct');
+    fb.textContent = '❌ Kurang tepat. ' + q.exp;
+    fb.className = 'quiz-feedback wrong show';
+  }
+  nxt.textContent = curQ < questions.length-1 ? 'Soal Berikutnya →' : 'Lihat Hasil 🎉';
+  nxt.className = 'quiz-next show';
+}
+
+function nextQuestion() {
+  curQ++;
+  if (curQ < questions.length) {
+    loadQuestion();
+  } else {
+    showResult();
+  }
+}
+
+function showResult() {
+  document.getElementById('quiz-container').style.display = 'none';
+  document.getElementById('quiz-result').style.display = 'block';
+  document.getElementById('quiz-progress').style.width = '100%';
+  const pct = Math.round(score/questions.length*100);
+  document.getElementById('quiz-score-big').textContent = score + '/' + questions.length;
+  let msg = '';
+  if (pct === 100) msg = '🏆 Sempurna! Kamu benar-benar menguasai materi ini!';
+  else if (pct >= 80) msg = '🌟 Luar biasa! Pemahaman kamu sangat baik.';
+  else if (pct >= 60) msg = '👍 Bagus! Tapi masih ada yang perlu dipelajari ulang.';
+  else msg = '📚 Tetap semangat! Pelajari kembali materi di atas ya.';
+  document.getElementById('quiz-result-msg').textContent = msg;
+}
+
+function restartQuiz() {
+  curQ = 0; score = 0; answered = false;
+  document.getElementById('quiz-container').style.display = 'block';
+  document.getElementById('quiz-result').style.display = 'none';
+  loadQuestion();
+}
+
+// ============ GLOSSARY ============
+const glossaryData = [
+  { term: "Bank", def: "Badan usaha yang menghimpun dana dari masyarakat dalam bentuk simpanan dan menyalurkannya kembali dalam rangka meningkatkan taraf hidup rakyat.", tag: "Umum" },
+  { term: "Bank Sentral", def: "Bank yang berfungsi sebagai bank sirkulasi dan induk dari bank-bank lain (banker of banks). Di Indonesia: Bank Indonesia.", tag: "Bank" },
+  { term: "Bank Umum", def: "Badan usaha yang menghimpun dana masyarakat dan menyalurkannya, serta menyediakan jasa perbankan lengkap.", tag: "Bank" },
+  { term: "BPR", def: "Bank Perkreditan Rakyat — melayani kebutuhan masyarakat menengah ke bawah/pedesaan dengan produk terbatas (tabungan, deposito, kredit).", tag: "Bank" },
+  { term: "Tabungan", def: "Simpanan di bank yang penyetoran dan penarikannya bisa dilakukan kapan saja (Saving Deposit).", tag: "Produk" },
+  { term: "Deposito", def: "Simpanan bank yang hanya bisa dicairkan pada waktu tertentu (jatuh tempo). Imbal hasil lebih tinggi dari tabungan.", tag: "Produk" },
+  { term: "Giro", def: "Simpanan yang bisa ditarik kapan saja menggunakan cek atau bilyet giro. Digunakan untuk transaksi bisnis nominal besar.", tag: "Produk" },
+  { term: "Cek", def: "Surat berharga yang dapat langsung diuangkan/dicairkan di bank oleh penerimanya.", tag: "Produk" },
+  { term: "Bilyet Giro", def: "Surat berharga yang tidak bisa diuangkan langsung di bank; penerimanya harus menyetorkannya ke rekening.", tag: "Produk" },
+  { term: "KPR", def: "Kredit Pemilikan Rumah — kredit untuk membeli rumah dengan jaminan berupa rumah itu sendiri.", tag: "Kredit" },
+  { term: "Kredit Modal Kerja", def: "Kredit yang diberikan untuk pembiayaan modal kerja perusahaan, baik perorangan maupun berbadan hukum.", tag: "Kredit" },
+  { term: "Kredit Investasi", def: "Kredit untuk membiayai pembangunan/perluasan gedung, pembelian mesin, dan investasi usaha lainnya.", tag: "Kredit" },
+  { term: "IKNB", def: "Industri Keuangan Non Bank — lembaga keuangan selain bank yang melakukan penghimpunan dana dan investasi.", tag: "IKNB" },
+  { term: "Pasar Modal", def: "Tempat bertemunya emiten (butuh dana) dan investor (punya dana) melalui perdagangan saham, obligasi, dll.", tag: "IKNB" },
+  { term: "Saham", def: "Bukti kepemilikan sebagian perusahaan. Pemegang saham berhak atas dividen dan capital gain.", tag: "IKNB" },
+  { term: "Obligasi", def: "Surat utang jangka panjang yang diterbitkan perusahaan atau pemerintah kepada investor.", tag: "IKNB" },
+  { term: "Koperasi", def: "Badan usaha yang dimiliki dan dikelola anggota secara sukarela berdasarkan asas kekeluargaan (UU No.25/1992).", tag: "IKNB" },
+  { term: "Asuransi", def: "Kontrak antara tertanggung dan penanggung; nasabah bayar premi untuk perlindungan finansial atas risiko tak terduga.", tag: "IKNB" },
+  { term: "Premi", def: "Pembayaran berkala yang dilakukan nasabah kepada perusahaan asuransi sebagai imbalan atas jaminan perlindungan.", tag: "IKNB" },
+  { term: "Polis", def: "Dokumen kontrak asuransi yang memuat hak dan kewajiban antara tertanggung dan penanggung.", tag: "IKNB" },
+  { term: "Pegadaian", def: "Lembaga keuangan non-bank (BUMN) yang memberikan pinjaman cepat dengan jaminan barang bergerak atau tidak bergerak.", tag: "IKNB" },
+  { term: "Leasing", def: "Sewa guna usaha — pembiayaan aset oleh lessor kepada lessee dengan cicilan berkala. Bisa beli di akhir kontrak.", tag: "IKNB" },
+  { term: "Lessor", def: "Perusahaan pembiayaan yang memberikan fasilitas leasing kepada lessee.", tag: "IKNB" },
+  { term: "Lessee", def: "Pengguna aset dalam perjanjian leasing yang membayar cicilan berkala kepada lessor.", tag: "IKNB" },
+  { term: "Fintech", def: "Financial Technology — inovasi layanan keuangan berbasis teknologi digital (dompet digital, P2P lending, robo-advisor).", tag: "IKNB" },
+  { term: "P2P Lending", def: "Peer-to-peer lending — pinjaman langsung antara pemberi pinjaman dan peminjam melalui platform digital tanpa perantara bank.", tag: "IKNB" },
+  { term: "Dana Pensiun", def: "Badan hukum yang mengelola program manfaat pensiun bagi peserta selama masa purna tugas.", tag: "IKNB" },
+  { term: "OJK", def: "Otoritas Jasa Keuangan — pengatur dan pengawas terintegrasi seluruh sektor jasa keuangan Indonesia.", tag: "Regulator" },
+  { term: "LPS", def: "Lembaga Penjamin Simpanan — menjamin simpanan nasabah bank hingga Rp2 miliar/nasabah/bank.", tag: "Regulator" },
+  { term: "Bank Syariah", def: "Bank yang beroperasi berdasarkan prinsip hukum Islam; menggunakan bagi hasil, margin, dan fee, bukan bunga.", tag: "Bank" },
+  { term: "Bagi Hasil", def: "Mekanisme pembagian keuntungan dan kerugian antara bank syariah dan nasabah sesuai nisbah yang disepakati.", tag: "Bank" },
+  { term: "DPS", def: "Dewan Pengawas Syariah — badan yang mengawasi kegiatan bank syariah agar sesuai prinsip hukum Islam.", tag: "Bank" },
+  { term: "Safe Deposit Box", def: "Layanan bank berupa brankas penyimpanan barang berharga milik nasabah di lingkungan bank yang aman.", tag: "Produk" },
+  { term: "Kebijakan Moneter", def: "Kebijakan Bank Sentral untuk mengendalikan jumlah uang beredar dan suku bunga demi kestabilan ekonomi.", tag: "Bank" },
+  { term: "Blanket Guarantee", def: "Jaminan penuh pemerintah atas seluruh kewajiban pembayaran bank; diterapkan Indonesia pasca krisis 1998.", tag: "Regulator" },
+  { term: "Emiten", def: "Perusahaan yang menerbitkan efek (saham/obligasi) untuk dijual ke publik melalui pasar modal guna mendapatkan dana.", tag: "IKNB" },
+  { term: "Investor", def: "Pihak yang memiliki dana dan menginvestasikannya di pasar modal atau instrumen keuangan lainnya.", tag: "IKNB" }
+];
+
+function renderGlossary(filter = '') {
+  const grid = document.getElementById('glossary-grid');
+  const empty = document.getElementById('glossary-empty');
+  const filtered = glossaryData.filter(g =>
+    g.term.toLowerCase().includes(filter.toLowerCase()) ||
+    g.def.toLowerCase().includes(filter.toLowerCase())
+  );
+  if (filtered.length === 0) {
+    grid.innerHTML = '';
+    empty.style.display = 'block';
+  } else {
+    empty.style.display = 'none';
+    grid.innerHTML = filtered.map(g => `
+      <div class="glossary-item">
+        <div class="glossary-term">${g.term}</div>
+        <div class="glossary-def">${g.def}</div>
+        <span class="glossary-tag">${g.tag}</span>
+      </div>
+    `).join('');
+  }
+}
+
+function filterGlossary(val) { renderGlossary(val); }
+
+// ============ INIT ============
+loadQuestion();
+renderGlossary();
+</script>
+</body>
+</html>
